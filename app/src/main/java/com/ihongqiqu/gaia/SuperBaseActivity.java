@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.ihongqiqu.gaia.request.Data;
 import com.ihongqiqu.gaia.request.Param;
+import com.ihongqiqu.gaia.request.RequestManager;
 import com.ihongqiqu.gaia.request.Requestable;
-import java.util.ArrayList;
 
 /**
  * Activity的超级基类
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SuperBaseActivity extends AppCompatActivity implements Requestable {
 
-    ArrayList<String> tags = null;
+    RequestManager requestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +41,11 @@ public class SuperBaseActivity extends AppCompatActivity implements Requestable 
         super.onDestroy();
     }
 
-    private void addTag(String tag) {
-        if (tags == null) {
-            tags = new ArrayList<String>();
-        }
-
-        if (!tags.contains(tag)) {
-            tags.add(tag);
-        }
-    }
-
     @Override
-    public void get(String tag, Param param, Class<? extends Data> cls) {
-        addTag(tag);
-    }
-
-    @Override
-    public void post(String tag, Param param, Class<? extends Data> cls) {
-        addTag(tag);
+    public void doRequest(String tag, Param param, Class<? extends Data> cls) {
+        if (requestManager == null) {
+            requestManager = new RequestManager(this);
+        }
+        requestManager.doRequest(tag, param, cls);
     }
 }

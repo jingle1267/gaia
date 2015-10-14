@@ -1,6 +1,7 @@
 package com.ihongqiqu.gaia;
 
 import android.app.Fragment;
+import android.os.Bundle;
 import com.ihongqiqu.gaia.request.Data;
 import com.ihongqiqu.gaia.request.Param;
 import com.ihongqiqu.gaia.request.Requestable;
@@ -13,25 +14,13 @@ import java.util.ArrayList;
  */
 public class SuperBaseFragment extends Fragment implements Requestable {
 
-    ArrayList<String> tags = null;
-
     @Override
-    public void get(String tag, Param param, Class<? extends Data> cls) {
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void post(String tag, Param param, Class<? extends Data> cls) {
+    public void doRequest(String tag, Param param, Class<? extends Data> cls) {
 
-    }
-
-    private void addTag(String tag) {
-        if (tags == null) {
-            tags = new ArrayList<String>();
-        }
-
-        if (!tags.contains(tag)) {
-            tags.add(tag);
-        }
     }
 }

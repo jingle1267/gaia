@@ -5,15 +5,15 @@ package com.ihongqiqu.gaia.request;
  *
  * Created by zhenguo on 10/14/15.
  */
-public interface Param {
+public class Param {
 
-    int GET = 0;
-    int POST = 1;
-    int UPLOAD = 2;
+    public static int GET = 0;
+    public static int POST = 1;
+    public static int UPLOAD = 2;
 
-    int String = 0;
-    int JSON = 1;
-    int XML = 2;
+    public static int String = 0;
+    public static int JSON = 1;
+    public static int XML = 2;
 
     /**
      * 请求方式 get post upload 默认GET

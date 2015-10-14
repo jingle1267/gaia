@@ -1,8 +1,5 @@
 package com.ihongqiqu.gaia.request;
 
-import com.ihongqiqu.gaia.request.Data;
-import com.ihongqiqu.gaia.request.Param;
-
 /**
  * 请求接口
  *
@@ -10,8 +7,6 @@ import com.ihongqiqu.gaia.request.Param;
  */
 public interface Requestable {
 
-    void get(String tag, Param param, Class<? extends Data> cls);
-
-    void post(String tag, Param param, Class<? extends Data> cls);
+    void doRequest(String tag, Param param, Class<? extends Data> cls);
 
 }
