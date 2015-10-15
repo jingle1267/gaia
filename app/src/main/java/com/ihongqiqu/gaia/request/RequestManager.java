@@ -1,8 +1,15 @@
 package com.ihongqiqu.gaia.request;
 
 import android.content.Context;
+import android.util.Log;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.ihongqiqu.gaia.BuildConfig;
+import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 
 /**
@@ -13,10 +20,12 @@ import java.util.ArrayList;
 public class RequestManager implements Requestable {
 
     ArrayList<String> tags = null;
-    RequestQueue mQueue;
+    RequestQueue requestQueue;
+    Gson gson;
+    Context context;
 
     public RequestManager(Context context) {
-        mQueue = Volley.newRequestQueue(context);
+        this.context = context;
     }
 
     public void onCancel() {
@@ -31,9 +40,10 @@ public class RequestManager implements Requestable {
 
         addTag(tag);
 
-        if (param.dataFormat == Param.JSON) {
+        if (BuildConfig.DEBUG) Log.d("RequestManager", "send request");
+        if (param.dataFormat == Param.DataFormat.JSON) {
             requestJSON(tag, param, cls);
-        } else if (param.dataFormat == Param.XML) {
+        } else if (param.dataFormat == Param.DataFormat.XML) {
             requestXML(tag, param, cls);
         } else {
             requestString(tag, param, cls);
@@ -50,16 +60,63 @@ public class RequestManager implements Requestable {
         }
     }
 
-    private void requestJSON(String tag, Param param, Class<? extends Data> cls) {
+    private void requestJSON(final String tag, Param param, final Class<? extends Data> cls) {
+        // TODO 设置参数
 
+        StringRequest stringRequest = new StringRequest(param.method, param.url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Data data = getGson().fromJson(response, cls);
+                data.tag = tag;
+                EventBus.getDefault().post(data);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new ErrorEvent(tag, error.networkResponse != null ? error.networkResponse.statusCode : 99, error.getMessage()));
+            }
+        });
+
+        getRequestQueue().add(stringRequest);
     }
 
     private void requestXML(String tag, Param param, Class<? extends Data> cls) {
+        // TODO 请求XML数据
+
+        // TODO 设置参数
+    }
+
+    private void requestString(final String tag, Param param, Class<? extends Data> cls) {
+        // TODO 设置参数
+
+        StringRequest stringRequest = new StringRequest(param.method, param.url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                EventBus.getDefault().post(new StringEvent(tag, response));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new ErrorEvent(tag, error.networkResponse != null ? error.networkResponse.statusCode : 99, error.getMessage()));
+            }
+        });
+
+        getRequestQueue().add(stringRequest);
 
     }
 
-    private void requestString(String tag, Param param, Class<? extends Data> cls) {
+    private RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(context);
+        }
+        return  requestQueue;
+    }
 
+    private Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        return gson;
     }
 
 }

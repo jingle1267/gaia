@@ -6,6 +6,7 @@ import com.ihongqiqu.gaia.request.Data;
 import com.ihongqiqu.gaia.request.Param;
 import com.ihongqiqu.gaia.request.RequestManager;
 import com.ihongqiqu.gaia.request.Requestable;
+import de.greenrobot.event.EventBus;
 
 /**
  * Activity的超级基类
@@ -14,11 +15,17 @@ import com.ihongqiqu.gaia.request.Requestable;
  */
 public class SuperBaseActivity extends AppCompatActivity implements Requestable {
 
-    RequestManager requestManager;
+    private RequestManager requestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -34,6 +41,7 @@ public class SuperBaseActivity extends AppCompatActivity implements Requestable 
     @Override
     protected void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

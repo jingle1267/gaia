@@ -5,5 +5,8 @@ package com.ihongqiqu.gaia.request;
  *
  * Created by zhenguo on 10/14/15.
  */
-public interface Data {
+public class Data {
+
+    String tag;
+
 }
