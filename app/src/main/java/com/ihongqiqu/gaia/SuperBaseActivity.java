@@ -3,7 +3,7 @@ package com.ihongqiqu.gaia;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.ihongqiqu.gaia.request.Data;
-import com.ihongqiqu.gaia.request.Param;
+import com.ihongqiqu.gaia.request.RequestParam;
 import com.ihongqiqu.gaia.request.RequestManager;
 import com.ihongqiqu.gaia.request.Requestable;
 import de.greenrobot.event.EventBus;
@@ -47,13 +47,16 @@ public class SuperBaseActivity extends AppCompatActivity implements Requestable 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (requestManager != null) {
+            requestManager.cancelAllRequest();
+        }
     }
 
     @Override
-    public void doRequest(String tag, Param param, Class<? extends Data> cls) {
+    public void doRequest(String tag, RequestParam requestParam, Class<? extends Data> cls) {
         if (requestManager == null) {
             requestManager = new RequestManager(this);
         }
-        requestManager.doRequest(tag, param, cls);
+        requestManager.doRequest(tag, requestParam, cls);
     }
 }

@@ -7,6 +7,6 @@ package com.ihongqiqu.gaia.request;
  */
 public class Data {
 
-    String tag;
+    public String tag;
 
 }

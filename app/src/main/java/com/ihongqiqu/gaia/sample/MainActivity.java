@@ -14,7 +14,7 @@ import com.ihongqiqu.gaia.BuildConfig;
 import com.ihongqiqu.gaia.R;
 import com.ihongqiqu.gaia.SuperBaseActivity;
 import com.ihongqiqu.gaia.request.ErrorEvent;
-import com.ihongqiqu.gaia.request.Param;
+import com.ihongqiqu.gaia.request.RequestParam;
 import com.ihongqiqu.gaia.request.StringEvent;
 
 public class MainActivity extends SuperBaseActivity {
@@ -49,17 +49,17 @@ public class MainActivity extends SuperBaseActivity {
     }
 
     private void requestStringData() {
-        Param param = new Param();
-        param.url = "http://wap.baidu.com";
-        param.dataFormat = Param.DataFormat.String;
-        doRequest("string", param, null);
+        RequestParam requestParam = new RequestParam();
+        requestParam.setUrl("http://wap.baidu.com");
+        requestParam.setDataFormat(RequestParam.String);
+        doRequest("string", requestParam, null);
     }
 
     private void requestJsonData() {
-        Param param = new Param();
-        param.url = "https://raw.githubusercontent.com/jingle1267/TestResource/master/data/address.json";
-        param.dataFormat = Param.DataFormat.JSON;
-        doRequest("json", param, AddressRequest.class);
+        RequestParam requestParam = new RequestParam();
+        requestParam.setUrl("https://raw.githubusercontent.com/jingle1267/TestResource/master/data/address.json");
+        requestParam.setDataFormat(RequestParam.JSON);
+        doRequest("json", requestParam, AddressRequest.class);
     }
 
     public void onEvent(AddressRequest addressRequest) {

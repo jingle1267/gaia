@@ -7,6 +7,6 @@ package com.ihongqiqu.gaia.request;
  */
 public interface Requestable {
 
-    void doRequest(String tag, Param param, Class<? extends Data> cls);
+    void doRequest(String tag, RequestParam requestParam, Class<? extends Data> cls);
 
 }
