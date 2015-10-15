@@ -2,12 +2,16 @@ package com.ihongqiqu.gaia.request;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import java.lang.annotation.Retention;
 import java.util.HashMap;
 
 /**
- * 参数
- *
+ * 请求参数
+ * <p/>
+ * 必须设置请求url
+ * 可以设置请求方式(GET,POST,UPLOAD)
+ * 可以设置请求返回数据的格式(STRING,JSON,XML)
+ * 可以添加需要的参数params
+ * <p/>
  * Created by zhenguo on 10/14/15.
  */
 public class RequestParam {
@@ -15,29 +19,29 @@ public class RequestParam {
     /**
      * Supported request methods.
      */
-    @IntDef({RequestParam.GET, RequestParam.POST, RequestParam.UPLOAD})
+    @IntDef({Method.GET, Method.POST, Method.UPLOAD})
     public @interface Method {
+        int GET = 0;
+        int POST = 1;
+        int UPLOAD = 2;
+
     }
 
-    public final static int GET = 0;
-    public final static int POST = 1;
-    public final static int UPLOAD = 2;
-
-    @IntDef({RequestParam.String, RequestParam.JSON, RequestParam.XML})
+    @IntDef({DataFormat.String, DataFormat.JSON, DataFormat.XML})
     public @interface DataFormat {
+        int String = 10;
+        int JSON = 11;
+        int XML = 12;
     }
-    public final static int String = 10;
-    public final static int JSON = 11;
-    public final static int XML = 12;
 
     /**
      * 请求方式 get post upload 默认GET
      */
-    private int method = RequestParam.GET;
+    private int method = Method.GET;
     /**
      * 返回数据格式 JSON XML String 默认JSON
      */
-    private int dataFormat = RequestParam.JSON;
+    private int dataFormat = DataFormat.JSON;
 
     /**
      * 请求地址
@@ -48,6 +52,7 @@ public class RequestParam {
 
     /**
      * 添加请求参数
+     *
      * @param k 参数关键字
      * @param v 参数值
      */

@@ -3,6 +3,8 @@ package com.ihongqiqu.gaia.request;
 /**
  * 出错事件
  * <p/>
+ * 请求出错实体,需要设置请求tag,请求错误吗和请求的错误信息
+ * <p/>
  * Created by zhenguo on 10/15/15.
  */
 public class ErrorEvent {

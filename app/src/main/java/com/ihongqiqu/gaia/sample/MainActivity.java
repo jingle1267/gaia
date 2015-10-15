@@ -51,14 +51,16 @@ public class MainActivity extends SuperBaseActivity {
     private void requestStringData() {
         RequestParam requestParam = new RequestParam();
         requestParam.setUrl("http://wap.baidu.com");
-        requestParam.setDataFormat(RequestParam.String);
+        requestParam.setDataFormat(RequestParam.DataFormat.String);
+        requestParam.setMethod(RequestParam.Method.GET);
         doRequest("string", requestParam, null);
     }
 
     private void requestJsonData() {
         RequestParam requestParam = new RequestParam();
         requestParam.setUrl("https://raw.githubusercontent.com/jingle1267/TestResource/master/data/address.json");
-        requestParam.setDataFormat(RequestParam.JSON);
+        requestParam.setDataFormat(RequestParam.DataFormat.JSON);
+        requestParam.setMethod(RequestParam.Method.GET);
         doRequest("json", requestParam, AddressRequest.class);
     }
 

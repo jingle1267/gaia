@@ -3,6 +3,8 @@ package com.ihongqiqu.gaia.request;
 /**
  * 普通请求 返回String数据
  * <p/>
+ * 主要包括 请求tag 和 请求数据字符串data
+ *
  * Created by zhenguo on 10/15/15.
  */
 public class StringEvent {

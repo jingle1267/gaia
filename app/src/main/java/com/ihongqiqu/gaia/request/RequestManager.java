@@ -17,6 +17,9 @@ import java.util.Map;
 /**
  * 请求管理类
  * <p/>
+ * 请求管理，可以添加和取消请求
+ * 还可以扩展数据的格式
+ * <p/>
  * Created by zhenguo on 10/14/15.
  */
 public class RequestManager implements Requestable {
@@ -32,6 +35,7 @@ public class RequestManager implements Requestable {
 
     /**
      * 取消某个请求
+     *
      * @param tag
      */
     public void cancelRequest(String tag) {
@@ -62,9 +66,9 @@ public class RequestManager implements Requestable {
 
         if (BuildConfig.DEBUG) Log.d("RequestManager", "send request");
         // 对请求不同的数据的接口做不同的处理
-        if (requestParam.getDataFormat() == RequestParam.JSON) {
+        if (requestParam.getDataFormat() == RequestParam.DataFormat.JSON) {
             requestJSON(tag, requestParam, cls);
-        } else if (requestParam.getDataFormat() == RequestParam.XML) {
+        } else if (requestParam.getDataFormat() == RequestParam.DataFormat.XML) {
             requestXML(tag, requestParam, cls);
         } else {
             requestString(tag, requestParam, cls);
@@ -100,7 +104,7 @@ public class RequestManager implements Requestable {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                if (requestParam.getMethod() == RequestParam.POST) {
+                if (requestParam.getMethod() == RequestParam.Method.POST) {
                     return requestParam.getParams();
                 }
                 return null;
@@ -135,7 +139,7 @@ public class RequestManager implements Requestable {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                if (requestParam.getMethod() == RequestParam.POST) {
+                if (requestParam.getMethod() == RequestParam.Method.POST) {
                     return requestParam.getParams();
                 }
                 return null;
@@ -166,7 +170,7 @@ public class RequestManager implements Requestable {
      * @param requestParam
      */
     private void setUrlParams(RequestParam requestParam) {
-        if (requestParam != null && requestParam.getParams() != null && requestParam.getMethod() == RequestParam.GET) {
+        if (requestParam != null && requestParam.getParams() != null && requestParam.getMethod() == RequestParam.Method.GET) {
             StringBuilder paramSB = new StringBuilder();
 
             if (!requestParam.getUrl().endsWith("?")) {
