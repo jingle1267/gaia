@@ -1,7 +1,7 @@
 package com.ihongqiqu.gaia;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import com.ihongqiqu.gaia.request.Data;
 import com.ihongqiqu.gaia.request.RequestParam;
 import com.ihongqiqu.gaia.request.RequestManager;
@@ -13,7 +13,7 @@ import de.greenrobot.event.EventBus;
  * <p/>
  * Created by zhenguo on 10/14/15.
  */
-public class SuperBaseActivity extends AppCompatActivity implements Requestable {
+public class SuperBaseActivity extends Activity implements Requestable {
 
     private RequestManager requestManager;
 
