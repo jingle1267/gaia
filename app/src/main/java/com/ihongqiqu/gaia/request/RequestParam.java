@@ -48,6 +48,11 @@ public class RequestParam {
      */
     private String url;
 
+    /**
+     * 请求标志 需要设置 除非不关心请求的结果
+     */
+    private String tag;
+
     private HashMap<String, String> params;
 
     /**
@@ -92,5 +97,13 @@ public class RequestParam {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

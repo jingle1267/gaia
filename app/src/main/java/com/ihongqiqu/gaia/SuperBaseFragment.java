@@ -43,11 +43,11 @@ public class SuperBaseFragment extends Fragment implements Requestable {
     }
 
     @Override
-    public void doRequest(String tag, RequestParam requestParam, Class<? extends Data> cls) {
+    public void doRequest(RequestParam requestParam, Class<? extends Data> cls) {
         if (requestManager == null) {
             requestManager = new RequestManager(getActivity());
         }
-        requestManager.doRequest(tag, requestParam, cls);
+        requestManager.doRequest(requestParam, cls);
     }
 
 }

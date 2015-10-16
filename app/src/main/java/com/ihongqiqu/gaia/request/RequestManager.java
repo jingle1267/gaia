@@ -1,6 +1,7 @@
 package com.ihongqiqu.gaia.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -57,21 +58,23 @@ public class RequestManager implements Requestable {
     }
 
     @Override
-    public void doRequest(String tag, RequestParam requestParam, Class<? extends Data> cls) {
+    public void doRequest(RequestParam requestParam, Class<? extends Data> cls) {
         if (requestParam == null) {
             requestParam = new RequestParam();
         }
 
-        addTag(tag);
+        if (!TextUtils.isEmpty(requestParam.getTag())) {
+            addTag(requestParam.getTag());
+        }
 
         if (BuildConfig.DEBUG) Log.d("RequestManager", "send request");
         // 对请求不同的数据的接口做不同的处理
         if (requestParam.getDataFormat() == RequestParam.DataFormat.JSON) {
-            requestJSON(tag, requestParam, cls);
+            requestJSON(requestParam, cls);
         } else if (requestParam.getDataFormat() == RequestParam.DataFormat.XML) {
-            requestXML(tag, requestParam, cls);
+            requestXML(requestParam, cls);
         } else {
-            requestString(tag, requestParam, cls);
+            requestString(requestParam, cls);
         }
     }
 
@@ -85,7 +88,7 @@ public class RequestManager implements Requestable {
         }
     }
 
-    private void requestJSON(final String tag, final RequestParam requestParam, final Class<? extends Data> cls) {
+    private void requestJSON(final RequestParam requestParam, final Class<? extends Data> cls) {
         // 设置参数
         setUrlParams(requestParam);
 
@@ -93,13 +96,18 @@ public class RequestManager implements Requestable {
             @Override
             public void onResponse(String response) {
                 Data data = getGson().fromJson(response, cls);
-                data.tag = tag;
+                if (!TextUtils.isEmpty(requestParam.getTag())) {
+                    data.tag = requestParam.getTag();
+                }
                 EventBus.getDefault().post(data);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                EventBus.getDefault().post(new ErrorEvent(tag, error.networkResponse != null ? error.networkResponse.statusCode : 99, error.getMessage()));
+                // 不设置tag的请求不处理错误
+                if (!TextUtils.isEmpty(requestParam.getTag())) {
+                    EventBus.getDefault().post(new ErrorEvent(requestParam.getTag(), error.networkResponse != null ? error.networkResponse.statusCode : 99, error.getMessage()));
+                }
             }
         }) {
             @Override
@@ -111,30 +119,36 @@ public class RequestManager implements Requestable {
             }
         };
 
-        stringRequest.setTag(tag);
+        if (!TextUtils.isEmpty(requestParam.getTag())) {
+            stringRequest.setTag(requestParam.getTag());
+        }
 
         getRequestQueue().add(stringRequest);
     }
 
-    private void requestXML(String tag, RequestParam requestParam, Class<? extends Data> cls) {
+    private void requestXML(RequestParam requestParam, Class<? extends Data> cls) {
         // TODO 请求XML数据
 
         // TODO 设置参数
     }
 
-    private void requestString(final String tag, final RequestParam requestParam, Class<? extends Data> cls) {
+    private void requestString(final RequestParam requestParam, Class<? extends Data> cls) {
         // 设置参数
         setUrlParams(requestParam);
 
         StringRequest stringRequest = new StringRequest(requestParam.getMethod(), requestParam.getUrl(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                EventBus.getDefault().post(new StringEvent(tag, response));
+                if (!TextUtils.isEmpty(requestParam.getTag())) {
+                    EventBus.getDefault().post(new StringEvent(requestParam.getTag(), response));
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                EventBus.getDefault().post(new ErrorEvent(tag, error.networkResponse != null ? error.networkResponse.statusCode : 99, error.getMessage()));
+                if (!TextUtils.isEmpty(requestParam.getTag())) {
+                    EventBus.getDefault().post(new ErrorEvent(requestParam.getTag(), error.networkResponse != null ? error.networkResponse.statusCode : 99, error.getMessage()));
+                }
             }
         }) {
             @Override
