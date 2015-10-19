@@ -53,10 +53,14 @@ public class RequestParam {
      */
     private String tag;
 
-    private HashMap<String, String> params;
+    private  static HashMap<String, String> params;
+    /**
+     * 网络请求公共参数
+     */
+    private static HashMap<String, String> Publicparams = new HashMap<String, String>();
 
     /**
-     * 添加请求参数
+     * 添加请求公共参数
      *
      * @param k 参数关键字
      * @param v 参数值
@@ -68,8 +72,36 @@ public class RequestParam {
         params.put(k, v);
     }
 
+    /**
+     * 对公共参数的key赋值
+     *
+     * @param key   键
+     * @param value 值
+     */
+    public static void setParamsValueForKey(String key, String value) {
+        if (RequestParam.Publicparams.containsKey(key))
+            RequestParam.Publicparams.remove(key);
+        RequestParam.Publicparams.put(key, value);
+    }
+
+    /**
+     * 添加请求参数
+     *
+     * @param k 参数关键字
+     * @param v 参数值
+     */
+    public void addParams(HashMap<String, String> param) {
+        if (params != null) {
+          params.clear();
+        }
+        params.putAll(param);
+    }
+
     public HashMap<String, String> getParams() {
         return params;
+    }
+    public HashMap<String, String> getPublicParams() {
+        return Publicparams;
     }
 
     @Method
