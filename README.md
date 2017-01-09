@@ -9,7 +9,7 @@ Volley
 
 ### 其它组件
 
-1. [WebviewAcitivity](https://github.com/jingle1267/WebActivity)
+1. [WebAcitivity](https://github.com/jingle1267/WebActivity)
 2. [H5 唤起原生](https://github.com/jingle1267/AndroidSchemeDemo)
 3. [Android utils](https://github.com/jingle1267/android-utils)
 4. [CommonProjectLibrary](https://github.com/jingle1267/CommonProjectLibrary)
