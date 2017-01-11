@@ -20,6 +20,7 @@ Volley
 ### 测试资源
 
 1. [测试资源](https://github.com/jingle1267/TestResource)
+2. [一键开关热点](https://github.com/jingle1267/OneKeyShareWifi)
 
 ### 其它应用
 
