@@ -17,10 +17,11 @@ Volley
 6. [UninstallSelfObserverDemo](https://github.com/jingle1267/UninstallSelfObserverDemo)
 7. [BSPatch](https://github.com/jingle1267/BSPatch)
 
-### 测试资源
+### 其它资源
 
 1. [测试资源](https://github.com/jingle1267/TestResource)
 2. [一键开关热点](https://github.com/jingle1267/OneKeyShareWifi)
+3. [JS 生成二维码](https://github.com/jingle1267/qr)
 
 ### 其它应用
 
